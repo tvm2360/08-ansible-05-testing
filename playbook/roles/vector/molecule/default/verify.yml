@@ -9,24 +9,27 @@
     ansible.builtin.assert:
       that: true
 
-- name: Ensure Vector file exists
+- name: Verify vector
   hosts: all
+  gather_facts: false
   tasks:
-    - name: Check if file vector exists
-      ansible.builtin.assert:
-        that:
-          - file.exists('/opt/vector/bin/vector')
-        fail_msg: "File vector does not exist!!!"
-        success_msg: "File vector is exist"
-        quiet: false
-
-- name: Ensure Vector config file exists
-  hosts: all
-  tasks:
-    - name: Check if file vector config exists
-      ansible.builtin.assert: 
-        that:
-          - file.exists('/opt/vector/config/vector.yaml')
-        fail_msg: "File vector config does not exist!!!"
-        success_msg: "File vector config is exist"
-        quiet: false
+  - name: "stat file vector exists"
+    stat:
+      path: "/opt/vector/bin/vector"
+    register: file_vector_stat
+  - name: "stat file vector config exists"
+    stat:
+      path: "/opt/vector/config/vector.yaml"
+    register: file_vector_config_stat
+  - name: "check if file vector exists"
+    assert:
+      that:
+        - file_vector_stat.stat.exists == True
+      success_msg: "vector exists"
+      fail_msg: "vector doesn't exist"
+  - name: "check if file vector config exists"
+    assert:
+      that:
+        - file_vector_config_stat.stat.exists == True
+      success_msg: "vector config exists"
+      fail_msg: "vector config doesn't exist"

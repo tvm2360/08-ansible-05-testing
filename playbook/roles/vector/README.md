@@ -44,3 +44,33 @@ molecule test
 ![Stage3_5_ok](./pictures/Stage3_5_ok.png)
 ![Stage3_6_ok](./pictures/Stage3_6_ok.png)
 
+4.
+``` ansible
+- name: Verify vector
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: "stat file vector exists"
+    stat:
+      path: "/opt/vector/bin/vector"
+    register: file_vector_stat
+  - name: "stat file vector config exists"
+    stat:
+      path: "/opt/vector/config/vector.yaml"
+    register: file_vector_config_stat
+  - name: "check if file vector exists"
+    assert:
+      that:
+        - file_vector_stat.stat.exists == True
+      success_msg: "vector exists"
+      fail_msg: "vector doesn't exist"
+  - name: "check if file vector config exists"
+    assert:
+      that:
+        - file_vector_config_stat.stat.exists == True
+      success_msg: "vector config exists"
+      fail_msg: "vector config doesn't exist"
+```
+
+5.
+![Stage5](./pictures/Stage5.png)
