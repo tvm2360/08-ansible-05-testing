@@ -2,20 +2,19 @@
 
 ## Molecule
 
-1.
-
+1. Тест
 ``` bash
 molecule test -s ubuntu_focal
 ```
 ![Stage1](./pictures/Stage1.png)
 
-2.
+2. Добавление сценария
 ``` bash
 molecule init scenario --driver-name docker
 ```
 ![Stage2](./pictures/Stage2.png)
 
-3.
+3. Проверка на ошибки
 ``` bash
 molecule test
 ```
@@ -44,7 +43,7 @@ molecule test
 ![Stage3_5_ok](./pictures/Stage3_5_ok.png)
 ![Stage3_6_ok](./pictures/Stage3_6_ok.png)
 
-4.
+4. verify.yml
 ``` ansible
 - name: Verify vector
   hosts: all
@@ -72,5 +71,5 @@ molecule test
       fail_msg: "vector config doesn't exist"
 ```
 
-5.
+5. Проверка успешна
 ![Stage5](./pictures/Stage5.png)
