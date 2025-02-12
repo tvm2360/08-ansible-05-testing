@@ -107,7 +107,23 @@ jmespath
 ``` bash
 docker run -d --rm --name tox --privileged=True -v /opt/08-ansible-05-testing/playbook/roles/vector:/opt/vector-role -w /opt/vector-role -it aragast/netology:latest /bin/bash
 ```
+
+3. docker exec -it 7a2c006ed104 /bin/bash
 ![StageTox3.png](./pictures/StageTox3.png)
+
+4. Проверка сценария на исполнимость на исполнимость
+``` ansible
+molecule matrix -s molecule_podman test
+```
+
+![StageTox4.png](./pictures/StageTox4.png)
+
+5. tox.ini
+``` ansible
+...
+commands =
+    {posargs:molecule test -s molecule_podman --destroy always}
+```
 
 
 
