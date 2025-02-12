@@ -8,3 +8,25 @@
   - name: Example assertion
     ansible.builtin.assert:
       that: true
+
+- name: Ensure Vector file exists
+  hosts: all
+  tasks:
+    - name: Check if file vector exists
+      ansible.builtin.assert:
+        that:
+          - file.exists('{{ vector_directory }}/vector/vector')
+        fail_msg: "File vector does not exist!!!"
+        success_msg: "File vector is exist"
+        quiet: false
+
+- name: Ensure Vector config file exists
+  hosts: all
+  tasks:
+    - name: Check if file vector config exists
+      ansible.builtin.assert: 
+        that:
+          - file.exists('{{ vector_directory }}/vector/config/vector.yaml')
+        fail_msg: "File vector config does not exist!!!"
+        success_msg: "File vector config is exist"
+        quiet: false

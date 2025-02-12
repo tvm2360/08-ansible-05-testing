@@ -43,7 +43,7 @@
   template:
     src=./templates/vector.yaml
     dest="{{ vector_directory }}/vector/config/vector.yaml"
-  notify: Start vector service
+  notify: Start vector
   tags:
     - restart_vector
 - name: Flush handlers

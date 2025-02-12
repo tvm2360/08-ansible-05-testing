@@ -1,4 +1,4 @@
 ---
-- name: Start vector service
+- name: Start vector
   become: false
   command: "tmux new -d '{{ vector_directory }}/vector/bin/vector --config {{ vector_directory }}/vector/config/vector.yaml'"
