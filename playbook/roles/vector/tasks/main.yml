@@ -1,0 +1,51 @@
+---
+- name: Update apt cache (Debian)
+  become: false
+  apt:
+    update_cache: yes
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  when: ansible_os_family == "Debian"
+- name: Update apt cache (RedHat)
+  become: false
+  yum:
+    update_cache: yes
+  when: ansible_os_family == "RedHat"
+- name: Install required packages and dependencies (Debian)
+  become: false
+  apt:
+    name:
+      - tmux
+    state: present
+  when: ansible_os_family == "Debian"
+- name: Install required packages and dependencies (RedHat)
+  become: false
+  yum:
+    name:
+      - tmux
+    state: present
+  when: ansible_os_family == "RedHat"
+- name: Get and Unarchive vector distrib
+  become: false
+  ansible.builtin.unarchive:
+    remote_src: yes
+    src: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-{{ vector_platform }}-unknown-linux-gnu.tar.gz"
+    dest: "{{ vector_directory }}"
+- name: Move vector directory
+  become: false
+  command: "mv {{ vector_directory }}/vector-{{ vector_platform }}-unknown-linux-gnu {{ vector_directory }}/vector"
+  args:
+    creates: "{{ vector_directory }}/vector"
+- name: Get vector config
+  become: false
+  vars:
+    clickhouse_ip: "{{ vector_clickhouse_ip }}"
+  template:
+    src=./templates/vector.yaml
+    dest="{{ vector_directory }}/vector/config/vector.yaml"
+  notify: Start vector service
+  tags:
+    - restart_vector
+- name: Flush handlers
+  meta: flush_handlers
+

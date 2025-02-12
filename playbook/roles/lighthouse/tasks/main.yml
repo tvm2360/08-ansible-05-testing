@@ -1,0 +1,42 @@
+---
+- name: Update apt cache
+  become: true
+  apt:
+    update_cache: yes
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+- name: Install required packages and dependencies
+  become: true
+  apt:
+    name:
+      - git
+      - nginx
+    state: present
+- name: Clone repository lighthouse
+  become: true
+  git:
+    repo: "{{ lighthouse_repository }}"
+    dest: /opt/lighthouse
+    version: master
+- name: Get lighthouse config (nginx.conf)
+  become: true
+  vars:
+    web_user: "{{ lighthouse_web_user }}"
+  template:
+    src=./roles/lighthouse/templates/nginx.conf.yaml
+    dest="/etc/nginx/nginx.conf"
+  notify: Start lighthouse service
+  tags:
+    - restart_lighthouse
+- name: Get lighthouse config (lighthouse.conf)
+  become: true
+  vars:
+    web_port: "{{ lighthouse_web_port }}"
+  template:
+    src=./roles/lighthouse/templates/lighthouse.conf.yaml
+    dest="/etc/nginx/sites-enabled/lighthouse.conf"
+  notify: Start lighthouse service
+  tags:
+    - restart_lighthouse
+- name: Flush handlers
+  meta: flush_handlers

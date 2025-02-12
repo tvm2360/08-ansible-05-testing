@@ -1,0 +1,5 @@
+- name: Start lighthouse service
+  become: true
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
