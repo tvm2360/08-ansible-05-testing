@@ -73,3 +73,40 @@ molecule test
 
 5. Проверка успешна
 ![Stage5](./pictures/Stage5.png)
+
+## Tox
+
+1. tox.ini
+``` ansible
+[tox]
+minversion = 1.8
+basepython = python3.6
+envlist = py{37,39}-ansible{210,30}
+skipsdist = true
+
+[testenv]
+passenv = *
+deps =
+    -r tox-requirements.txt
+    ansible210: ansible<3.0
+    ansible30: ansible<3.1
+commands =
+    {posargs:molecule test -s compatibility --destroy always}
+```
+
+tox-requirements.txt
+``` ansible
+selinux
+lxml
+molecule
+molecule_podman
+jmespath
+```
+
+2.
+``` bash
+docker run -d --rm --name tox --privileged=True -v /opt/08-ansible-05-testing/playbook/roles/vector:/opt/vector-role -w /opt/vector-role -it aragast/netology:latest /bin/bash
+```
+![StageTox3.png](./pictures/StageTox3.png)
+
+
