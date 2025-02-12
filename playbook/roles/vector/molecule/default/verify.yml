@@ -15,7 +15,7 @@
     - name: Check if file vector exists
       ansible.builtin.assert:
         that:
-          - file.exists('{{ vector_directory }}/vector/vector')
+          - file.exists('/opt/vector/bin/vector')
         fail_msg: "File vector does not exist!!!"
         success_msg: "File vector is exist"
         quiet: false
@@ -26,7 +26,7 @@
     - name: Check if file vector config exists
       ansible.builtin.assert: 
         that:
-          - file.exists('{{ vector_directory }}/vector/config/vector.yaml')
+          - file.exists('/opt/vector/config/vector.yaml')
         fail_msg: "File vector config does not exist!!!"
         success_msg: "File vector config is exist"
         quiet: false

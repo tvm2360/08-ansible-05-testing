@@ -33,7 +33,7 @@
     dest: "{{ vector_directory }}"
 - name: Move vector directory
   become: false
-  command: "mv {{ vector_directory }}/vector-{{ vector_platform }}-unknown-linux-gnu {{ vector_directory }}/vector"
+  command: "cp -r {{ vector_directory }}/vector-{{ vector_platform }}-unknown-linux-gnu {{ vector_directory }}/vector"
   args:
     creates: "{{ vector_directory }}/vector"
 - name: Get vector config
@@ -48,4 +48,3 @@
     - restart_vector
 - name: Flush handlers
   meta: flush_handlers
-
