@@ -110,3 +110,5 @@ docker run -d --rm --name tox --privileged=True -v /opt/08-ansible-05-testing/pl
 ![StageTox3.png](./pictures/StageTox3.png)
 
 
+
+
