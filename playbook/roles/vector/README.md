@@ -125,6 +125,10 @@ commands =
     {posargs:molecule test -s molecule_podman --destroy always}
 ```
 
+6. tox
 
+![StageTox6_1.png](./pictures/StageTox6_1.png)
 
+![StageTox6_2.png](./pictures/StageTox6_2.png)
 
+![StageTox6_3.png](./pictures/StageTox6_3.png)
